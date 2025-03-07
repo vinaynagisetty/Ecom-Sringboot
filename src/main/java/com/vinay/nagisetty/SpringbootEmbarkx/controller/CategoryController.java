@@ -18,7 +18,7 @@ public class CategoryController {
     }
 
 
-    @GetMapping("/api/admin/categories")
+    @GetMapping("/api/public/categories")
     public List<Category> getCategories() {
         return categoryService.getCategories() ;
     }
@@ -27,5 +27,9 @@ public class CategoryController {
     public String addCategory(@RequestBody Category category) {
 
         return  categoryService.addCategory(category);
+    }
+    @DeleteMapping("/api/admin/categories/{categoryId}")
+    public String deleteCategory(@PathVariable Long categoryId) {
+        return categoryService.deleteCategory(categoryId);
     }
 }
