@@ -35,10 +35,13 @@ private ICategoryRepository categoryRepository;
     @Override
     public String deleteCategory(Long categoryId) {
 
-        List<Category> categories=categoryRepository.findAll();
-        Category category= categories.stream().filter(value ->value.getCategoryId().equals(categoryId)).findFirst().orElseThrow(
-               ()->new ResponseStatusException(HttpStatus.NOT_FOUND,"Category with categoryId " + categoryId + " not found")
-       );
+        Category category=categoryRepository.findById(categoryId).orElseThrow(
+                ()->new ResponseStatusException(HttpStatus.NOT_FOUND,"Category with categoryId " + categoryId + " not found")
+        );
+//        List<Category> categories=categoryRepository.findAll();
+//        Category category= categories.stream().filter(value ->value.getCategoryId().equals(categoryId)).findFirst().orElseThrow(
+//               ()->new ResponseStatusException(HttpStatus.NOT_FOUND,"Category with categoryId " + categoryId + " not found")
+//       );
 
         categoryRepository.delete(category);
         return "Category with categoryId " + categoryId + " deleted successfully";
@@ -46,13 +49,16 @@ private ICategoryRepository categoryRepository;
 
     @Override
     public String updateCategory(Category category, Long categoryId) {
-        List<Category> categories=categoryRepository.findAll();
-
-        Category category1= categories.stream().filter(value ->value.getCategoryId().equals(categoryId)).findFirst().orElseThrow(
-                ()->new ResponseStatusException(HttpStatus.NOT_FOUND,"Category with categoryId " + categoryId + " not found")
+//        List<Category> categories=categoryRepository.findAll();
+//
+//        Category category1= categories.stream().filter(value ->value.getCategoryId().equals(categoryId)).findFirst().orElseThrow(
+//                ()->new ResponseStatusException(HttpStatus.NOT_FOUND,"Category with categoryId " + categoryId + " not found")
+//        );
+//        category1.setCategoryName(category.getCategoryName());
+        Category savedcategory=categoryRepository.findById(categoryId).orElseThrow(  ()->new ResponseStatusException(HttpStatus.NOT_FOUND,"Category with categoryId " + categoryId + " not found")
         );
-        category1.setCategoryName(category.getCategoryName());
-        Category savedCategory=categoryRepository.save(category1);
+        category.setCategoryId(categoryId);
+        Category savedCategory=categoryRepository.save(category);
         return "Category updated successfully";
     }
 }
