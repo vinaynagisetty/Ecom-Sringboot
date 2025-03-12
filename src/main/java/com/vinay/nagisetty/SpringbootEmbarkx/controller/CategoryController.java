@@ -2,7 +2,10 @@ package com.vinay.nagisetty.SpringbootEmbarkx.controller;
 
 import com.vinay.nagisetty.SpringbootEmbarkx.model.Category;
 import com.vinay.nagisetty.SpringbootEmbarkx.service.CategoryService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,17 +22,27 @@ public class CategoryController {
 
 
     @GetMapping("/api/public/categories")
-    public List<Category> getCategories() {
-        return categoryService.getCategories() ;
+    public ResponseEntity<List<Category>>getCategories() {
+        List<Category> categories = categoryService.getCategories();
+        return  ResponseEntity.ok(categories);
     }
 
     @PostMapping("/api/admin/categories")
-    public String addCategory(@RequestBody Category category) {
+    public ResponseEntity<String> addCategory(@RequestBody Category category) {
 
-        return  categoryService.addCategory(category);
+        String s = categoryService.addCategory(category);
+        return new ResponseEntity<>(s,HttpStatus.CREATED);
     }
     @DeleteMapping("/api/admin/categories/{categoryId}")
-    public String deleteCategory(@PathVariable Long categoryId) {
-        return categoryService.deleteCategory(categoryId);
+    public ResponseEntity<String>  deleteCategory(@PathVariable Long categoryId) {
+        try {
+           String status=categoryService.deleteCategory(categoryId);
+
+            return new ResponseEntity<>(status,HttpStatus.OK);
+        }
+        catch (ResponseStatusException e){
+            return new ResponseEntity<>(e.getMessage(),e.getStatusCode()) ;
+        }
+
     }
 }

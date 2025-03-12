@@ -1,7 +1,9 @@
 package com.vinay.nagisetty.SpringbootEmbarkx.service;
 
 import com.vinay.nagisetty.SpringbootEmbarkx.model.Category;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,10 +27,10 @@ public class CategorySeriveImpl implements CategoryService {
 
     @Override
     public String deleteCategory(Long categoryId) {
-       Category category= categories.stream().filter(value ->value.getCategoryId().equals(categoryId)).findFirst().orElse(null);
-        if(category == null){
-            return "Category with categoryId " + categoryId + " not found";
-        }
+       Category category= categories.stream().filter(value ->value.getCategoryId().equals(categoryId)).findFirst().orElseThrow(
+               ()->new ResponseStatusException(HttpStatus.NOT_FOUND,"Category with categoryId " + categoryId + " not found")
+       );
+
         categories.remove(category);
         return "Category with categoryId " + categoryId + " deleted successfully";
     }
