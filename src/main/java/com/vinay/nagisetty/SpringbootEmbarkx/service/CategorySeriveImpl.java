@@ -1,5 +1,6 @@
 package com.vinay.nagisetty.SpringbootEmbarkx.service;
 
+import com.vinay.nagisetty.SpringbootEmbarkx.exceptions.ResourceNotFoundException;
 import com.vinay.nagisetty.SpringbootEmbarkx.model.Category;
 import com.vinay.nagisetty.SpringbootEmbarkx.repository.ICategoryRepository;
 import org.springframework.http.HttpStatus;
@@ -36,7 +37,7 @@ private ICategoryRepository categoryRepository;
     public String deleteCategory(Long categoryId) {
 
         Category category=categoryRepository.findById(categoryId).orElseThrow(
-                ()->new ResponseStatusException(HttpStatus.NOT_FOUND,"Category with categoryId " + categoryId + " not found")
+                ()->new ResourceNotFoundException("Category","Category Id",categoryId)
         );
 //        List<Category> categories=categoryRepository.findAll();
 //        Category category= categories.stream().filter(value ->value.getCategoryId().equals(categoryId)).findFirst().orElseThrow(
@@ -55,7 +56,8 @@ private ICategoryRepository categoryRepository;
 //                ()->new ResponseStatusException(HttpStatus.NOT_FOUND,"Category with categoryId " + categoryId + " not found")
 //        );
 //        category1.setCategoryName(category.getCategoryName());
-        Category savedcategory=categoryRepository.findById(categoryId).orElseThrow(  ()->new ResponseStatusException(HttpStatus.NOT_FOUND,"Category with categoryId " + categoryId + " not found")
+        Category savedcategory=categoryRepository.findById(categoryId).orElseThrow(
+                ()->new ResourceNotFoundException("Category","Category Id",categoryId)
         );
         category.setCategoryId(categoryId);
         Category savedCategory=categoryRepository.save(category);

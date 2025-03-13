@@ -2,6 +2,7 @@ package com.vinay.nagisetty.SpringbootEmbarkx.controller;
 
 import com.vinay.nagisetty.SpringbootEmbarkx.model.Category;
 import com.vinay.nagisetty.SpringbootEmbarkx.service.CategoryService;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -29,7 +30,7 @@ public class CategoryController {
     }
 
     @PostMapping("/admin/categories")
-    public ResponseEntity<String> addCategory(@RequestBody Category category) {
+    public ResponseEntity<String> addCategory( @Valid @RequestBody Category category) {
 
         String s = categoryService.addCategory(category);
         return new ResponseEntity<>(s,HttpStatus.CREATED);
