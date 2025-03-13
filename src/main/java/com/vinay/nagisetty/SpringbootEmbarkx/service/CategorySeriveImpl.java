@@ -24,7 +24,13 @@ private ICategoryRepository categoryRepository;
 
     @Override
     public List<Category> getCategories() {
-        return categoryRepository.findAll();
+        List<Category> totalCategory=categoryRepository.findAll();
+
+        if(totalCategory.isEmpty()){
+            throw new APIException("Doesn't have any category");
+
+        }
+        return totalCategory;
     }
 
     @Override
