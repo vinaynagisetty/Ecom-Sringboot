@@ -1,5 +1,6 @@
 package com.vinay.nagisetty.SpringbootEmbarkx.service;
 
+import com.vinay.nagisetty.SpringbootEmbarkx.exceptions.APIException;
 import com.vinay.nagisetty.SpringbootEmbarkx.exceptions.ResourceNotFoundException;
 import com.vinay.nagisetty.SpringbootEmbarkx.model.Category;
 import com.vinay.nagisetty.SpringbootEmbarkx.repository.ICategoryRepository;
@@ -29,6 +30,11 @@ private ICategoryRepository categoryRepository;
     @Override
     public String addCategory(Category category) {
 //        category.setCategoryId(categoryId++);
+        Category savedCategory=categoryRepository.findByCategoryName(category.getCategoryName());
+
+        if(savedCategory !=null){
+            throw new APIException("category with category name"+" "+category.getCategoryName()+" "+" already exists");
+        }
         categoryRepository.save(category);
         return "Category added successfully";
     }
