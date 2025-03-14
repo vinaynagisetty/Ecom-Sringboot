@@ -1,5 +1,6 @@
 package com.vinay.nagisetty.SpringbootEmbarkx.controller;
 
+import com.vinay.nagisetty.SpringbootEmbarkx.dto.CategoryResponseDto;
 import com.vinay.nagisetty.SpringbootEmbarkx.model.Category;
 import com.vinay.nagisetty.SpringbootEmbarkx.service.CategoryService;
 import jakarta.validation.Valid;
@@ -23,8 +24,8 @@ public class CategoryController {
 
 
     @GetMapping("/public/categories")
-    public ResponseEntity<List<Category>>getCategories() {
-        List<Category> categories = categoryService.getCategories();
+    public ResponseEntity<CategoryResponseDto>getCategories() {
+        CategoryResponseDto categories = categoryService.getCategories();
         return  ResponseEntity.ok(categories);
     }
 

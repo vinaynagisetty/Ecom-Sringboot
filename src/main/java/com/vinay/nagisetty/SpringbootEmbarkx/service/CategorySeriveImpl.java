@@ -1,9 +1,12 @@
 package com.vinay.nagisetty.SpringbootEmbarkx.service;
 
+import com.vinay.nagisetty.SpringbootEmbarkx.dto.CategoryRequestDto;
+import com.vinay.nagisetty.SpringbootEmbarkx.dto.CategoryResponseDto;
 import com.vinay.nagisetty.SpringbootEmbarkx.exceptions.APIException;
 import com.vinay.nagisetty.SpringbootEmbarkx.exceptions.ResourceNotFoundException;
 import com.vinay.nagisetty.SpringbootEmbarkx.model.Category;
 import com.vinay.nagisetty.SpringbootEmbarkx.repository.ICategoryRepository;
+import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -17,20 +20,28 @@ public class CategorySeriveImpl implements CategoryService {
 //    private Long categoryId = 1L;
 
 private ICategoryRepository categoryRepository;
+private ModelMapper modelMapper;
 
-    public CategorySeriveImpl(ICategoryRepository categoryRepository) {
+    public CategorySeriveImpl(ICategoryRepository categoryRepository, ModelMapper modelMapper) {
         this.categoryRepository = categoryRepository;
+        this.modelMapper=modelMapper;
+
     }
 
     @Override
-    public List<Category> getCategories() {
+    public CategoryResponseDto getCategories() {
         List<Category> totalCategory=categoryRepository.findAll();
 
         if(totalCategory.isEmpty()){
             throw new APIException("Doesn't have any category");
 
         }
-        return totalCategory;
+        List<CategoryRequestDto> categories=totalCategory.stream().map(
+                (category)->modelMapper.map(category,CategoryRequestDto.class)
+        ).toList();
+        CategoryResponseDto response=new CategoryResponseDto();
+        response.setContents(categories);
+        return response;
     }
 
     @Override
