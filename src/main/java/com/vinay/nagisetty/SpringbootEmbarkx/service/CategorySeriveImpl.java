@@ -59,33 +59,25 @@ private ModelMapper modelMapper;
     }
 
     @Override
-    public String deleteCategory(Long categoryId) {
+    public CategoryRequestDto deleteCategory(Long categoryId) {
 
         Category category=categoryRepository.findById(categoryId).orElseThrow(
                 ()->new ResourceNotFoundException("Category","Category Id",categoryId)
         );
-//        List<Category> categories=categoryRepository.findAll();
-//        Category category= categories.stream().filter(value ->value.getCategoryId().equals(categoryId)).findFirst().orElseThrow(
-//               ()->new ResponseStatusException(HttpStatus.NOT_FOUND,"Category with categoryId " + categoryId + " not found")
-//       );
 
         categoryRepository.delete(category);
-        return "Category with categoryId " + categoryId + " deleted successfully";
+        return modelMapper.map(category,CategoryRequestDto.class);
     }
 
     @Override
-    public String updateCategory(Category category, Long categoryId) {
-//        List<Category> categories=categoryRepository.findAll();
+    public CategoryRequestDto updateCategory(CategoryRequestDto categoryDto, Long categoryId) {
 //
-//        Category category1= categories.stream().filter(value ->value.getCategoryId().equals(categoryId)).findFirst().orElseThrow(
-//                ()->new ResponseStatusException(HttpStatus.NOT_FOUND,"Category with categoryId " + categoryId + " not found")
-//        );
-//        category1.setCategoryName(category.getCategoryName());
+        Category category=modelMapper.map(categoryDto,Category.class);
         Category savedcategory=categoryRepository.findById(categoryId).orElseThrow(
                 ()->new ResourceNotFoundException("Category","Category Id",categoryId)
         );
         category.setCategoryId(categoryId);
         Category savedCategory=categoryRepository.save(category);
-        return "Category updated successfully";
+        return modelMapper.map(savedCategory,CategoryRequestDto.class);
     }
 }
