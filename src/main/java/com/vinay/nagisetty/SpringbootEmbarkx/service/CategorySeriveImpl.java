@@ -45,15 +45,17 @@ private ModelMapper modelMapper;
     }
 
     @Override
-    public String addCategory(Category category) {
+    public CategoryRequestDto addCategory(CategoryRequestDto categorydto) {
 //        category.setCategoryId(categoryId++);
-        Category savedCategory=categoryRepository.findByCategoryName(category.getCategoryName());
+        Category category=modelMapper.map(categorydto,Category.class);
+        Category categoryFromDb=categoryRepository.findByCategoryName(category.getCategoryName());
 
-        if(savedCategory !=null){
+        if(categoryFromDb !=null){
             throw new APIException("category with category name"+" "+category.getCategoryName()+" "+" already exists");
         }
-        categoryRepository.save(category);
-        return "Category added successfully";
+//        CategoryRequestDto categoryDto=
+        Category savedCategory= categoryRepository.save(category);
+        return modelMapper.map(savedCategory,CategoryRequestDto.class);
     }
 
     @Override

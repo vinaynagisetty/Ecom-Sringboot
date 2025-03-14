@@ -9,6 +9,6 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class CategoryResponseDto {
+public class  CategoryResponseDto {
     List<CategoryRequestDto> contents;
 }

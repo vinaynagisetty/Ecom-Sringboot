@@ -1,5 +1,6 @@
 package com.vinay.nagisetty.SpringbootEmbarkx.controller;
 
+import com.vinay.nagisetty.SpringbootEmbarkx.dto.CategoryRequestDto;
 import com.vinay.nagisetty.SpringbootEmbarkx.dto.CategoryResponseDto;
 import com.vinay.nagisetty.SpringbootEmbarkx.model.Category;
 import com.vinay.nagisetty.SpringbootEmbarkx.service.CategoryService;
@@ -30,9 +31,9 @@ public class CategoryController {
     }
 
     @PostMapping("/admin/categories")
-    public ResponseEntity<String> addCategory( @Valid @RequestBody Category category) {
+    public ResponseEntity<CategoryRequestDto> addCategory( @Valid @RequestBody CategoryRequestDto category) {
 
-        String s = categoryService.addCategory(category);
+        CategoryRequestDto s = categoryService.addCategory(category);
         return new ResponseEntity<>(s,HttpStatus.CREATED);
     }
     @DeleteMapping("/admin/categories/{categoryId}")
