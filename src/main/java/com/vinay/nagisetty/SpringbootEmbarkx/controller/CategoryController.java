@@ -1,5 +1,6 @@
 package com.vinay.nagisetty.SpringbootEmbarkx.controller;
 
+import com.vinay.nagisetty.SpringbootEmbarkx.config.AppConstants;
 import com.vinay.nagisetty.SpringbootEmbarkx.dto.CategoryRequestDto;
 import com.vinay.nagisetty.SpringbootEmbarkx.dto.CategoryResponseDto;
 import com.vinay.nagisetty.SpringbootEmbarkx.model.Category;
@@ -25,8 +26,9 @@ public class CategoryController {
 
 
     @GetMapping("/public/categories")
-    public ResponseEntity<CategoryResponseDto>getCategories() {
-        CategoryResponseDto categories = categoryService.getCategories();
+    public ResponseEntity<CategoryResponseDto>getCategories(@RequestParam(name="pageNumber",defaultValue = AppConstants.pageNumber,required = false)int pageNumber,
+                                                            @RequestParam(name="pageSize",defaultValue = AppConstants.pageSize,required = false)int pageSize) {
+        CategoryResponseDto categories = categoryService.getCategories(pageNumber,pageSize);
         return  ResponseEntity.ok(categories);
     }
 

@@ -10,7 +10,7 @@ import java.util.List;
 
 public interface CategoryService {
 
-    CategoryResponseDto getCategories();
+    CategoryResponseDto getCategories(int pageNumber,int pageSize);
     CategoryRequestDto addCategory(CategoryRequestDto categorydto);
 
     CategoryRequestDto deleteCategory(Long categoryId);

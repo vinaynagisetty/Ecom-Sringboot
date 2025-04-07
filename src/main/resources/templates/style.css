@@ -1,0 +1,48 @@
+body {
+    font-family: Arial, sans-serif;
+    color: #333;
+    padding: 20px;
+}
+
+.header {
+    background: #004080;
+    color: #ffffff;
+    text-align: center;
+    padding: 20px;
+    font-size: 24px;
+    font-weight: bold;
+    border-radius: 10px;
+}
+
+.content {
+    margin: 20px 0;
+    padding: 20px;
+    background: #f4f4f4;
+    border-radius: 10px;
+}
+
+.footer {
+    background: #004080;
+    color: white;
+    text-align: center;
+    padding: 10px;
+    font-size: 12px;
+    border-radius: 10px;
+}
+
+.salary-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.salary-table th, .salary-table td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: left;
+}
+
+.salary-table th {
+    background: #004080;
+    color: white;
+}

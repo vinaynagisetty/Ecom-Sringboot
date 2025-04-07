@@ -7,6 +7,9 @@ import com.vinay.nagisetty.SpringbootEmbarkx.exceptions.ResourceNotFoundExceptio
 import com.vinay.nagisetty.SpringbootEmbarkx.model.Category;
 import com.vinay.nagisetty.SpringbootEmbarkx.repository.ICategoryRepository;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -29,8 +32,10 @@ private ModelMapper modelMapper;
     }
 
     @Override
-    public CategoryResponseDto getCategories() {
-        List<Category> totalCategory=categoryRepository.findAll();
+    public CategoryResponseDto getCategories(int pageNumber,int pageSize) {
+        Pageable pageable= PageRequest.of(pageNumber,pageSize);
+        Page<Category> pages=categoryRepository.findAll(pageable);
+        List<Category> totalCategory=pages.getContent();
 
         if(totalCategory.isEmpty()){
             throw new APIException("Doesn't have any category");
@@ -41,6 +46,11 @@ private ModelMapper modelMapper;
         ).toList();
         CategoryResponseDto response=new CategoryResponseDto();
         response.setContents(categories);
+        response.setPageNumber(pages.getNumber());
+        response.setPageSize(pages.getSize());
+        response.setTotalElements(pages.getTotalElements());
+        response.setTotalPages(pages.getTotalPages());
+        response.setLastPage(pages.isLast());
         return response;
     }
 

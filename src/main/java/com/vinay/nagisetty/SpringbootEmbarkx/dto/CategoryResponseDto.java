@@ -11,4 +11,11 @@ import java.util.List;
 @NoArgsConstructor
 public class  CategoryResponseDto {
     List<CategoryRequestDto> contents;
+    public Integer pageNumber;
+    public  Integer pageSize;
+    public Long totalElements;
+    public Integer totalPages;
+    public boolean lastPage;
+
+
 }
