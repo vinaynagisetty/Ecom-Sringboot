@@ -1,6 +1,7 @@
 package com.vinay.nagisetty.SpringbootEmbarkx.exceptions;
 
 
+import com.vinay.nagisetty.SpringbootEmbarkx.dto.ApiResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -27,11 +28,11 @@ public class GlobalExceptionHandler {
 
 
     @ExceptionHandler(ResourceNotFoundException.class)
-   public ResponseEntity<Map<String,String>> resourceNotFoundException(ResourceNotFoundException e){
-       Map<String,String> response=new HashMap<>();
-       response.put("Messeage",e.getMessage());
+   public ResponseEntity<ApiResponse> resourceNotFoundException(ResourceNotFoundException e){
+       String message=e.getMessage();
+       ApiResponse apiResponse=new ApiResponse(message,false);
 
-        return new ResponseEntity<>(response,HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(apiResponse,HttpStatus.NOT_FOUND);
    }
    @ExceptionHandler(APIException.class)
    public ResponseEntity<String> apiException(APIException e){

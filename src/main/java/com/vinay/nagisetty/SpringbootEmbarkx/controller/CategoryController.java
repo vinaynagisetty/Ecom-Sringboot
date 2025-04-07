@@ -27,8 +27,10 @@ public class CategoryController {
 
     @GetMapping("/public/categories")
     public ResponseEntity<CategoryResponseDto>getCategories(@RequestParam(name="pageNumber",defaultValue = AppConstants.pageNumber,required = false)int pageNumber,
-                                                            @RequestParam(name="pageSize",defaultValue = AppConstants.pageSize,required = false)int pageSize) {
-        CategoryResponseDto categories = categoryService.getCategories(pageNumber,pageSize);
+                                                            @RequestParam(name="pageSize",defaultValue = AppConstants.pageSize,required = false)int pageSize,
+                                                            @RequestParam (name="sort_order", defaultValue = AppConstants.sort_order,required = false) String sort_order,
+                                                            @RequestParam(name = "sort_by_field",defaultValue = AppConstants.sort_by_field,required = false)String sort_by_field) {
+        CategoryResponseDto categories = categoryService.getCategories(pageNumber,pageSize,sort_order,sort_by_field);
         return  ResponseEntity.ok(categories);
     }
 

@@ -10,6 +10,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -32,8 +33,12 @@ private ModelMapper modelMapper;
     }
 
     @Override
-    public CategoryResponseDto getCategories(int pageNumber,int pageSize) {
-        Pageable pageable= PageRequest.of(pageNumber,pageSize);
+    public CategoryResponseDto getCategories(int pageNumber,int pageSize,String sort_order,String sort_by_field) {
+        Sort sortedDetails=sort_order.equalsIgnoreCase("asc")
+                ? Sort.by(sort_by_field).ascending()
+                :Sort.by(sort_by_field).descending();
+
+        Pageable pageable= PageRequest.of(pageNumber,pageSize,sortedDetails);
         Page<Category> pages=categoryRepository.findAll(pageable);
         List<Category> totalCategory=pages.getContent();
 
