@@ -15,7 +15,7 @@ public interface IProductRepository extends JpaRepository<Product, Long> {
     List<Product> findByCategory(Category category);
 
 
-    List<Product> findByProductNameLikeIgnoreCase(String productName);
+    Page<Product> findByProductNameLikeIgnoreCase(String productName, Pageable pageDetails);
 
     Page<Product> findByCategoryOrderByPriceAsc(Category category, Pageable pageDetails);
 }

@@ -14,7 +14,7 @@ public interface ProductService {
 
 //    ProductResponseDTO getProductsByCategory(Long categoryId);
 
-    ProductResponseDTO searChByProductName(String productName);
+//    ProductResponseDTO searChByProductName(String productName);
 
     ProductDto updateProduct(Long productId, ProductDto product);
 
@@ -25,4 +25,6 @@ public interface ProductService {
     ProductResponseDTO getProducts(int pageNumber, int pageSize, String sortOrder, String sortByField);
 
     ProductResponseDTO getProductsByCategory(Long categoryId, int pageNumber, int pageSize, String sortOrder, String sortByField);
+
+    ProductResponseDTO searChByProductName(String productName, int pageNumber, int pageSize, String sortOrder, String sortByField);
 }
