@@ -1,5 +1,6 @@
 package com.vinay.nagisetty.SpringbootEmbarkx.controller;
 
+import com.vinay.nagisetty.SpringbootEmbarkx.config.AppConstants;
 import com.vinay.nagisetty.SpringbootEmbarkx.dto.ApiResponse;
 import com.vinay.nagisetty.SpringbootEmbarkx.dto.ProductAddResponseDTO;
 import com.vinay.nagisetty.SpringbootEmbarkx.dto.ProductDto;
@@ -40,8 +41,13 @@ public class ProductController {
     }
 
     @GetMapping("/public/products")
-    public ResponseEntity<ProductResponseDTO> getProducts() {
-        ProductResponseDTO productResponse = productService.getProducts();
+    public ResponseEntity<ProductResponseDTO> getProducts(
+            @RequestParam(name = "pageNumber", defaultValue = AppConstants.pageNumber, required = false) int pageNumber,
+            @RequestParam(name = "pageSize", defaultValue = AppConstants.pageSize, required = false) int pageSize,
+            @RequestParam(name = "sort_order", defaultValue = AppConstants.sort_order, required = false) String sort_order,
+            @RequestParam(name = "sort_by_field", defaultValue =AppConstants.sort_product_by_field, required = false) String sort_by_field
+    ) {
+        ProductResponseDTO productResponse = productService.getProducts(pageNumber, pageSize, sort_order, sort_by_field);
         return new ResponseEntity<>(productResponse, HttpStatus.OK);
     }
 
