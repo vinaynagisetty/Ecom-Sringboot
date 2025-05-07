@@ -65,4 +65,15 @@ public class ProductServiceImpl implements ProductService {
         productResponseDTO.setContent(productDtos);
         return productResponseDTO;
     }
+
+    @Override
+    public ProductResponseDTO searChByProductName(String productName) {
+        List<Product> products = productRepository.findByProductNameLikeIgnoreCase("%"+productName+"%");
+        List<ProductDto> productDtos = products.stream()
+                .map(product -> modelMapper.map(product, ProductDto.class))
+                .toList();
+        ProductResponseDTO productResponseDTO = new ProductResponseDTO();
+        productResponseDTO.setContent(productDtos);
+        return productResponseDTO;
+    }
 }

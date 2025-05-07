@@ -10,4 +10,6 @@ public interface ProductService {
     ProductResponseDTO getProducts();
 
     ProductResponseDTO getProductsByCategory(Long categoryId);
+
+    ProductResponseDTO searChByProductName(String productName);
 }

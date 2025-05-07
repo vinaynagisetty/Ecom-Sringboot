@@ -45,4 +45,9 @@ public class ProductController {
         ProductResponseDTO productResponse = productService.getProductsByCategory(categoryId);
         return new ResponseEntity<>(productResponse, HttpStatus.OK);
     }
+    @GetMapping("/public/products/search/{productName}")
+    public ResponseEntity<ProductResponseDTO> searChByProductName(@PathVariable String productName) {
+        ProductResponseDTO productResponse = productService.searChByProductName(productName);
+        return new ResponseEntity<>(productResponse, HttpStatus.OK);
+    }
 }
