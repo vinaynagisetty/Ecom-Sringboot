@@ -52,8 +52,12 @@ public class ProductController {
     }
 
     @GetMapping("/public/category/{categoryId}/products")
-    public ResponseEntity<ProductResponseDTO> getProductsByCategory(@PathVariable Long categoryId) {
-        ProductResponseDTO productResponse = productService.getProductsByCategory(categoryId);
+    public ResponseEntity<ProductResponseDTO> getProductsByCategory(@PathVariable Long categoryId,
+                                                                    @RequestParam(name = "pageNumber", defaultValue = AppConstants.pageNumber, required = false) int pageNumber,
+                                                                    @RequestParam(name = "pageSize", defaultValue = AppConstants.pageSize, required = false) int pageSize,
+                                                                    @RequestParam(name = "sort_order", defaultValue = AppConstants.sort_order, required = false) String sort_order,
+                                                                    @RequestParam(name = "sort_by_field", defaultValue =AppConstants.sort_product_by_field, required = false) String sort_by_field) {
+        ProductResponseDTO productResponse = productService.getProductsByCategory(categoryId, pageNumber, pageSize, sort_order, sort_by_field);
         return new ResponseEntity<>(productResponse, HttpStatus.OK);
     }
     @GetMapping("/public/products/search/{productName}")

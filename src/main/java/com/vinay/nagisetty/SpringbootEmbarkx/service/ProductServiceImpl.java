@@ -95,16 +95,28 @@ private final FileServiceImpl fileService;
     }
 
     @Override
-    public ProductResponseDTO getProductsByCategory(Long categoryId) {
+    public ProductResponseDTO getProductsByCategory(Long categoryId, int pageNumber, int pageSize, String sortOrder, String sortByField) {
         Category category = categoryRepository.findById(categoryId)
                 .orElseThrow(() -> new ResourceNotFoundException("Category", "category id", categoryId));
 
-        List<Product> products = productRepository.findByCategory(category);
+        Sort sortByAndOrder = sortOrder.equalsIgnoreCase("asc")
+                ? Sort.by(sortByField).ascending()
+                : Sort.by(sortByField).descending();
+
+        Pageable pageDetails = PageRequest.of(pageNumber, pageSize, sortByAndOrder);
+        Page<Product> pageProducts = productRepository.findByCategoryOrderByPriceAsc(category, pageDetails);
+
+        List<Product> products = pageProducts.getContent();
         List<ProductDto> productDtos = products.stream()
                 .map(product -> modelMapper.map(product, ProductDto.class))
                 .toList();
         ProductResponseDTO productResponseDTO = new ProductResponseDTO();
         productResponseDTO.setContent(productDtos);
+        productResponseDTO.setPageNumber(pageProducts.getNumber());
+        productResponseDTO.setPageSize(pageProducts.getSize());
+        productResponseDTO.setTotalElements(pageProducts.getTotalElements());
+        productResponseDTO.setTotalPages(pageProducts.getTotalPages());
+        productResponseDTO.setLastPage(pageProducts.isLast());
         return productResponseDTO;
     }
 

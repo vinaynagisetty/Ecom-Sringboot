@@ -12,7 +12,7 @@ public interface ProductService {
 //
 //    ProductResponseDTO getProducts();
 
-    ProductResponseDTO getProductsByCategory(Long categoryId);
+//    ProductResponseDTO getProductsByCategory(Long categoryId);
 
     ProductResponseDTO searChByProductName(String productName);
 
@@ -23,4 +23,6 @@ public interface ProductService {
     ProductDto updateProductImage(Long productId, MultipartFile image) throws IOException;
 
     ProductResponseDTO getProducts(int pageNumber, int pageSize, String sortOrder, String sortByField);
+
+    ProductResponseDTO getProductsByCategory(Long categoryId, int pageNumber, int pageSize, String sortOrder, String sortByField);
 }
