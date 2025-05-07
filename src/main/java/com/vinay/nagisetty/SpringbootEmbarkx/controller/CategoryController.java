@@ -1,3 +1,5 @@
+
+
 package com.vinay.nagisetty.SpringbootEmbarkx.controller;
 
 import com.vinay.nagisetty.SpringbootEmbarkx.config.AppConstants;
@@ -25,7 +27,7 @@ public class CategoryController {
     }
 
 
-    @GetMapping("/public/categories")
+    @GetMapping("/admin/categories")
     public ResponseEntity<CategoryResponseDto>getCategories(@RequestParam(name="pageNumber",defaultValue = AppConstants.pageNumber,required = false)int pageNumber,
                                                             @RequestParam(name="pageSize",defaultValue = AppConstants.pageSize,required = false)int pageSize,
                                                             @RequestParam (name="sort_order", defaultValue = AppConstants.sort_order,required = false) String sort_order,
