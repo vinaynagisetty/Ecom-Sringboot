@@ -8,6 +8,7 @@ import com.vinay.nagisetty.SpringbootEmbarkx.model.Product;
 import com.vinay.nagisetty.SpringbootEmbarkx.repository.ICategoryRepository;
 import com.vinay.nagisetty.SpringbootEmbarkx.repository.IProductRepository;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -25,11 +26,15 @@ public class ProductServiceImpl implements ProductService {
  private final ICategoryRepository categoryRepository;
     private ModelMapper modelMapper;
 
+  @Value("${project.path}")
+ private String path;
+private final FileServiceImpl fileService;
     public ProductServiceImpl(IProductRepository productRepository, ICategoryRepository categoryRepository,
-                              ModelMapper modelMapper) {
+                              ModelMapper modelMapper, FileServiceImpl fileService) {
         this.productRepository = productRepository;
         this.categoryRepository = categoryRepository;
         this.modelMapper = modelMapper;
+        this.fileService = fileService;
     }
 
     @Override
@@ -119,8 +124,8 @@ public class ProductServiceImpl implements ProductService {
 
         // Upload image to server
         // Get the file name of uploaded image
-        String path = "images/";
-        String fileName = uploadImage(path, image);
+
+        String fileName = fileService.uploadImage(path, image);
 
         // Updating the new file name to the product
         productFromDb.setImage(fileName);
@@ -132,25 +137,4 @@ public class ProductServiceImpl implements ProductService {
         return modelMapper.map(updatedProduct, ProductDto.class);
     }
 
-    private String uploadImage(String path, MultipartFile file) throws IOException {
-        // File names of current / original file
-        String originalFileName = file.getOriginalFilename();
-
-        // Generate a unique file name
-        String randomId = UUID.randomUUID().toString();
-        // mat.jpg --> 1234 --> 1234.jpg
-        String fileName = randomId.concat(originalFileName.substring(originalFileName.lastIndexOf('.')));
-        String filePath = path + File.separator + fileName;
-
-        // Check if path exist and create
-        File folder = new File(path);
-        if (!folder.exists())
-            folder.mkdir();
-
-        // Upload to server
-        Files.copy(file.getInputStream(), Paths.get(filePath));
-
-        // returning file name
-        return fileName;
-    }
 }
