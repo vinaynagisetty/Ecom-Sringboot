@@ -6,6 +6,7 @@ import com.vinay.nagisetty.SpringbootEmbarkx.dto.ProductDto;
 import com.vinay.nagisetty.SpringbootEmbarkx.dto.ProductResponseDTO;
 import com.vinay.nagisetty.SpringbootEmbarkx.model.Product;
 import com.vinay.nagisetty.SpringbootEmbarkx.service.ProductService;
+import jakarta.validation.Valid;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,7 +28,7 @@ public class ProductController {
     }
 
     @PostMapping("/admin/category/{categoryId}/product")
-    public ResponseEntity<ProductAddResponseDTO> addProduct(@RequestBody ProductDto productDto,
+    public ResponseEntity<ProductAddResponseDTO> addProduct( @Valid @RequestBody ProductDto productDto,
                                                          @PathVariable Long categoryId) {
 
         ProductDto productResponse= productService.addProduct(productDto, categoryId);

@@ -2,6 +2,7 @@ package com.vinay.nagisetty.SpringbootEmbarkx.service;
 
 import com.vinay.nagisetty.SpringbootEmbarkx.dto.ProductDto;
 import com.vinay.nagisetty.SpringbootEmbarkx.dto.ProductResponseDTO;
+import com.vinay.nagisetty.SpringbootEmbarkx.exceptions.APIException;
 import com.vinay.nagisetty.SpringbootEmbarkx.exceptions.ResourceNotFoundException;
 import com.vinay.nagisetty.SpringbootEmbarkx.model.Category;
 import com.vinay.nagisetty.SpringbootEmbarkx.model.Product;
@@ -41,6 +42,18 @@ private final FileServiceImpl fileService;
     public ProductDto addProduct(ProductDto productDto, Long categoryId) {
         Category category = categoryRepository.findById(categoryId)
                 .orElseThrow(() -> new ResourceNotFoundException("Category","category id", categoryId));
+
+        boolean isProductExists = true;
+        List<Product> products =  category.getProducts();
+        for (Product product : products) {
+            if (product.getProductName().equalsIgnoreCase(productDto.getProductName())) {
+                isProductExists = false;
+                break;
+            }
+        }
+        if (!isProductExists) {
+          throw  new APIException("Product already exists in this category");
+        }
 
         Product product = modelMapper.map(productDto, Product.class);
         product.setCategory(category);
