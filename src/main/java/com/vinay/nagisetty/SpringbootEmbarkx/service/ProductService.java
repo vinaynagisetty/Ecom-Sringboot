@@ -12,4 +12,6 @@ public interface ProductService {
     ProductResponseDTO getProductsByCategory(Long categoryId);
 
     ProductResponseDTO searChByProductName(String productName);
+
+    ProductDto updateProduct(Long productId, Product product);
 }

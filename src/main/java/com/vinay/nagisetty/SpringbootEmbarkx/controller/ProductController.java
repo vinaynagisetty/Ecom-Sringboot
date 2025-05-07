@@ -1,5 +1,6 @@
 package com.vinay.nagisetty.SpringbootEmbarkx.controller;
 
+import com.vinay.nagisetty.SpringbootEmbarkx.dto.ApiResponse;
 import com.vinay.nagisetty.SpringbootEmbarkx.dto.ProductAddResponseDTO;
 import com.vinay.nagisetty.SpringbootEmbarkx.dto.ProductDto;
 import com.vinay.nagisetty.SpringbootEmbarkx.dto.ProductResponseDTO;
@@ -49,5 +50,11 @@ public class ProductController {
     public ResponseEntity<ProductResponseDTO> searChByProductName(@PathVariable String productName) {
         ProductResponseDTO productResponse = productService.searChByProductName(productName);
         return new ResponseEntity<>(productResponse, HttpStatus.OK);
+    }
+
+    @PutMapping("/admin/product/{productId}")
+    public ResponseEntity<ApiResponse> updateProduct(@PathVariable Long productId, @RequestBody Product product) {
+        ProductDto productResponse = productService.updateProduct(productId, product);
+        return new ResponseEntity<>(new ApiResponse("Product updated successfully", true), HttpStatus.OK);
     }
 }
