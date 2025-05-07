@@ -2,10 +2,9 @@ package com.vinay.nagisetty.SpringbootEmbarkx.service;
 
 import com.vinay.nagisetty.SpringbootEmbarkx.dto.ProductDto;
 import com.vinay.nagisetty.SpringbootEmbarkx.dto.ProductResponseDTO;
-import com.vinay.nagisetty.SpringbootEmbarkx.model.Product;
 
 public interface ProductService {
-    ProductDto addProduct(Product product, Long categoryId);
+    ProductDto addProduct(ProductDto product, Long categoryId);
 
     ProductResponseDTO getProducts();
 
@@ -13,5 +12,7 @@ public interface ProductService {
 
     ProductResponseDTO searChByProductName(String productName);
 
-    ProductDto updateProduct(Long productId, Product product);
+    ProductDto updateProduct(Long productId, ProductDto product);
+
+    void deleteProduct(Long productId);
 }
